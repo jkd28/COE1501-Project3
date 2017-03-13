@@ -3,6 +3,7 @@
 	COE 1501
 	3/13/17
 */
+import java.util.Scanner;
 public class Car{
 	// Properties of the car
 	private String myVIN;
@@ -13,14 +14,61 @@ public class Car{
 	private String myColor;
 	
 	// Constructor
-	public Car(String vin, String make, String model, int price, int miles, String color){
+	public Car(){
+		createCar();
+	}
+	
+	// prompt for car creation
+	private void createCar(){
+		String vin, make, model, color;
+		int price, miles;
+		
+		// create scanners for input
+		Scanner stringreader = new Scanner(System.in);
+		Scanner intreader = new Scanner(System.in);
+		
+		// get VIN
+		System.out.print("Enter VIN: ");
+		vin = stringreader.nextLine();
+		while(!checkVIN(vin)){
+			System.out.print("\nInvalid VIN, enter valid VIN: ");
+			vin = stringreader.nextLine();
+		}
+		// get Make
+		System.out.print("\nEnter Make: ");
+		make = stringreader.nextLine();
+		
+		// get Model
+		System.out.print("\nEnter Model: ");
+		model = stringreader.nextLine();
+		
+		// get Price
+		System.out.print("\nEnter Price: ");
+		price = intreader.nextInt();
+		
+		// get Mileage
+		System.out.print("\nEnter Mileage: ");
+		miles = intreader.nextInt();
+		
+		// get Color
+		System.out.print("\nEnter Color: ");
+		color = stringreader.nextLine();
+		
+		// set all values to instance variables
 		myVIN 	= vin;
 		myMake	= make;
 		myModel	= model;
-		myPrice = price;
-		myMiles = miles;
-		myColor = color;
+		myPrice	= price;
+		myMiles	= miles;
+		myColor	= color;
+		
+		return;
 	}
+	
+	// check validity of the entered VIN
+	private boolean checkVIN(String vin){
+	}
+	
 	
 	// Getters 
 	public String getVIN(){
@@ -43,22 +91,16 @@ public class Car{
 	}
 	
 	// Setters
-	public void setVIN(String vin){
-		myVIN = vin;
-	}
-	public void setMake(String make){
-		myMake=make;
-	}
-	public void setModel(String model){
-		myModel=model;
-	}
 	public void setPrice(int price){
 		myPrice=price;
+		return;
 	}
 	public void setMileage(int miles){
 		myMiles=miles;
+		return;
 	}
 	public void setColor(String color){
 		 myColor=color;
+		 return;
 	}
 }
