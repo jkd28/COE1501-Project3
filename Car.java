@@ -1,4 +1,4 @@
-/* 
+/*
 	Created by: John Dott
 	COE 1501
 	3/13/17
@@ -12,48 +12,49 @@ public class Car{
 	private int myPrice;
 	private int myMiles;
 	private String myColor;
-	
+
 	// Constructor
 	public Car(){
 		createCar();
 	}
-	
+
 	// prompt for car creation
 	private void createCar(){
 		String vin, make, model, color;
 		int price, miles;
-		
+
 		// create scanners for input
 		Scanner stringreader = new Scanner(System.in);
 		Scanner intreader = new Scanner(System.in);
-		
+
+		// get all input, all strings are placed in upper case for consistency
 		// get VIN
 		System.out.print("Enter VIN: ");
-		vin = stringreader.nextLine();
+		vin = ((stringreader.nextLine()).trim()).toUpperCase();
 		while(!checkVIN(vin)){
 			System.out.print("\nInvalid VIN, enter valid VIN: ");
 			vin = stringreader.nextLine();
 		}
 		// get Make
 		System.out.print("\nEnter Make: ");
-		make = stringreader.nextLine();
-		
+		make = ((stringreader.nextLine()).trim()).toUpperCase();
+
 		// get Model
 		System.out.print("\nEnter Model: ");
-		model = stringreader.nextLine();
-		
+		model = stringreader.nextLine().trim().toUpperCase();
+
 		// get Price
 		System.out.print("\nEnter Price: ");
 		price = intreader.nextInt();
-		
+
 		// get Mileage
 		System.out.print("\nEnter Mileage: ");
 		miles = intreader.nextInt();
-		
+
 		// get Color
 		System.out.print("\nEnter Color: ");
-		color = stringreader.nextLine();
-		
+		color = stringreader.nextLine().trim().toUpperCase();
+
 		// set all values to instance variables
 		myVIN 	= vin;
 		myMake	= make;
@@ -61,16 +62,23 @@ public class Car{
 		myPrice	= price;
 		myMiles	= miles;
 		myColor	= color;
-		
+
 		return;
 	}
-	
+
 	// check validity of the entered VIN
 	private boolean checkVIN(String vin){
+		if(vin.length() != 17){
+			return false;
+		}else if(vin.contains("I") || vin.contains("O") || vin.contains("Q")){
+			return false;
+		} else {
+			return true;
+		}
 	}
-	
-	
-	// Getters 
+
+
+	// Getters
 	public String getVIN(){
 		return myVIN;
 	}
@@ -89,7 +97,7 @@ public class Car{
 	public String getColor(){
 		return myColor;
 	}
-	
+
 	// Setters
 	public void setPrice(int price){
 		myPrice=price;
