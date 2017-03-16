@@ -12,18 +12,17 @@ public class MileageQ{
     private int size; // stores the size of the queueing
     private int last; // the next index to be inserted to in order to maintain the heap property
 		private HashMap<String, Integer> indirect;	// the data structure for maintaining indirection to the PQ
-
+	
+		// constructor
     public MileageQ(){
       q = new Car[100]; // arbitrary size of 100
       size = 0;
       last = 0;
 			indirect = new HashMap<String, Integer>(100);	// also arbitrary size of 100
-    }
-
-    public boolean isEmpty(){
-      return (size == 0); // return the value of an empty check
-    }
-
+		}
+	
+		/******ACTION METHODS*******/
+		// insert a car into the PQ
     public void insert(Car car){
       q[last] = car;  // add item to last place in the array
 			indirect.put(car.getVIN(), last);	// insert the item into indirection structure
@@ -35,14 +34,65 @@ public class MileageQ{
       return;
     }
 		
+		// remove any node from the PQ given the car's VIN
     public void remove(String vin){
 			int loc = getQIndex(vin);	// get the location of the car from the HashMap
+			// if vin does not exist in the queue, terminate
+			if(loc == -1) return;
       swap(loc,--last); //decrement the last position counter, then swap the min value with the last value added
       sink(loc);  // sink the swapped value down to a proper location
 			// after the sink is finished, remove the car from the indirection structure
 			indirect.remove(vin);
     }
-
+		
+		// update the price, given a valid vin number
+		public int updatePrice(String vin, int newPrice){
+			int location = getQIndex(vin);
+			if(location != -1){ // check for vin existence
+				q[location].setPrice(newPrice);
+				return 1; //success 
+			} else {
+				return 0; //failed
+			}
+		}
+		
+		// update the color, given a valid vin
+		public int updateColor(String vin, String newColor){
+			int location = getQIndex(vin);
+			if(location != -1){ // check for vin existence
+				q[location].setColor(newColor);
+				return 1; //success 
+			} else {
+				return 0; //failed
+			}
+		}
+		
+		// update the mileage given a vin, this requires reordering of the PQ 
+		public int updateMileage(String vin, int newMiles){
+			int location = getQIndex(vin);
+			if(location != -1){ // check for vin existence
+				int oldMiles = q[location].getMileage(); //save old number of miles
+				q[location].setMileage(newMiles);
+				// maintain heap property
+				if(newMiles > oldMiles){
+					//the car has decreased in priority
+					sink(location);
+					return 1;
+				} else if (newMiles < oldMiles){
+					//the car has increased in priority
+					swim(location);
+					return 1;
+				} else if (newMiles == oldMiles){
+					//no priority change, do nothing
+					return 1;
+				}
+				return 1; //success 
+			} else {
+				return 0; //failed
+			}
+		}
+		
+		/******HELPER METHODS********/
     // swim a value up the heap to the proper location
     private void swim(int index){
       int parentIndex = getParentIndex(index);
@@ -84,16 +134,19 @@ public class MileageQ{
       return;
     }
 
-		public int getQIndex(String vin){
+		// get the index of a given vin using indirection
+		private int getQIndex(String vin){
 			if(indirect.containsKey(vin)) return indirect.get(vin);
 			else return -1;
 		}
 		
+		// calculate the location of a parent node given an index
     private int getParentIndex(int i){
       int parent = (int)Math.floor((i-1.0)/2.0);
       return parent;
     }
 
+		// swap two nodes in the PQ by indexes
     private void swap(int first, int second){	
       Car temp = q[first];
       q[first] = q[second];
@@ -116,6 +169,7 @@ public class MileageQ{
       return;
     }
 
+		//function to print the Queue, strictly for testing
     public void printQ(){
       for(int i = 0; i < last; i++){
         System.out.println(i + ": " + q[i].getMileage());

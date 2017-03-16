@@ -22,6 +22,12 @@ public class Car{
 		myMiles = miles;
 		myColor = color;
 	}
+	
+	//constructor for TESTING	
+	public Car(String vin, int miles){
+		myVIN = vin;
+		myMiles = miles;
+	}
 
 	// Getters
 	public String getVIN(){

@@ -8,7 +8,7 @@
 */
 import java.util.Scanner;
 public class CarTracker{
-	MileageQ byMiles;
+	static MileageQ byMiles;
 	
 	public static void displayMenu(){
 		System.out.println("**********************************************************************");
@@ -20,6 +20,7 @@ public class CarTracker{
 		System.out.println("	5. Retrieve Lowest MILEAGE Car");
 		System.out.println("	6. Retrieve Lowest PRICE Car by MAKE AND MODEL");
 		System.out.println("	7. Retrieve Lowest MILEAGE Car by MAKE AND MODEL");
+		System.out.println("Entering -1 will terminate the program");
 		System.out.println("**********************************************************************");
 		return;
 	}
@@ -29,7 +30,7 @@ public class CarTracker{
 		Scanner reader = new Scanner(System.in);
 		System.out.print("Selection: ");
 		int choice = reader.nextInt();
-		while(choice < 1 ||	choice > 7){
+		while((choice < 1 ||	choice > 7) && !(choice == -1)){
 			System.out.print("INVALID SELECTION. Please enter a number from the menu above: ");
 			choice = reader.nextInt();
 			System.out.println();
@@ -46,6 +47,7 @@ public class CarTracker{
 			case 2:
 				break;
 			case 3:
+				removeCar();
 				break;
 			case 4:
 				break;
@@ -72,6 +74,7 @@ public class CarTracker{
 		// get VIN
 		System.out.print("Enter VIN: ");
 		vin = ((stringreader.nextLine()).trim()).toUpperCase();
+		/* 
 		// get Make
 		System.out.print("\nEnter Make: ");
 		make = ((stringreader.nextLine()).trim()).toUpperCase();
@@ -81,14 +84,18 @@ public class CarTracker{
 		// get Price
 		System.out.print("\nEnter Price: ");
 		price = intreader.nextInt();
+		*/
 		// get Mileage
 		System.out.print("\nEnter Mileage: ");
 		miles = intreader.nextInt();
+		/*
 		// get Color
 		System.out.print("\nEnter Color: ");
 		color = stringreader.nextLine().trim().toUpperCase();
+		*/
 		// create a car object
-		Car car = new Car(vin, make, model, price, miles, color);
+		//Car car = new Car(vin, make, model, price, miles, color);
+		Car car = new Car(vin, miles);
 		return car;
 	}
 	
@@ -97,6 +104,18 @@ public class CarTracker{
 		//first, we prompt for all properties of the car
 		Car c = createCar();
 		//add the car to all necessary PQs
+		byMiles.insert(c);
+	}
+	
+	//Menu Selection 3, remove a car from consideration
+	public static void removeCar(){
+		String vin;
+		Scanner reader = new Scanner(System.in);
+		System.out.print("Enter the VIN of the car you would like to remove: ");
+		vin = reader.nextLine().trim().toUpperCase();
+		
+		//remove that vin from all queues
+		byMiles.remove(vin);
 		
 	}
 	
@@ -139,6 +158,10 @@ public class CarTracker{
 		int choice;
 		displayMenu();
 		choice = prompt();
-		directUser(choice);
+		while(choice != -1){
+			directUser(choice);
+			byMiles.printQ();
+			choice = prompt();
+		}
 	}
 }
