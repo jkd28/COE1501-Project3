@@ -15,7 +15,11 @@ public class Car{
 
 	// Constructor
 	public Car(){
-		createCar();
+		// get Mileage
+		Scanner intreader = new Scanner(System.in);
+		System.out.print("\nEnter Mileage: ");
+		myMiles = intreader.nextInt();
+		//createCar();
 	}
 
 	// prompt for car creation
@@ -31,10 +35,7 @@ public class Car{
 		// get VIN
 		System.out.print("Enter VIN: ");
 		vin = ((stringreader.nextLine()).trim()).toUpperCase();
-		while(!checkVIN(vin)){
-			System.out.print("\nInvalid VIN, enter valid VIN: ");
-			vin = stringreader.nextLine();
-		}
+
 		// get Make
 		System.out.print("\nEnter Make: ");
 		make = ((stringreader.nextLine()).trim()).toUpperCase();
@@ -65,18 +66,6 @@ public class Car{
 
 		return;
 	}
-
-	// check validity of the entered VIN
-	private boolean checkVIN(String vin){
-		if(vin.length() != 17){
-			return false;
-		}else if(vin.contains("I") || vin.contains("O") || vin.contains("Q")){
-			return false;
-		} else {
-			return true;
-		}
-	}
-
 
 	// Getters
 	public String getVIN(){
