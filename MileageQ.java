@@ -9,26 +9,28 @@
 import java.util.HashMap;
 public class MileageQ{
     private Car[] q;  // the array to store the cars we are queueing
-    private int size; // stores the size of the queueing
     private int last; // the next index to be inserted to in order to maintain the heap property
 		private HashMap<String, Integer> indirect;	// the data structure for maintaining indirection to the PQ
 	
 		// constructor
     public MileageQ(){
       q = new Car[100]; // arbitrary size of 100
-      size = 0;
       last = 0;
 			indirect = new HashMap<String, Integer>(100);	// also arbitrary size of 100
 		}
-	
+
 		/******ACTION METHODS*******/
+		// get car with least Mileage
+		public Car getMin(){
+			return q[0];
+		}
+		
 		// insert a car into the PQ
     public void insert(Car car){
       q[last] = car;  // add item to last place in the array
 			indirect.put(car.getVIN(), last);	// insert the item into indirection structure
 			swim(last);     // now swim the value up to proper location
       last++;         // increment last position counter
-			
       // perform a resize if necessary
       if(last == q.length) resizeQueue();
       return;
@@ -40,7 +42,9 @@ public class MileageQ{
 			// if vin does not exist in the queue, terminate
 			if(loc == -1) return;
       swap(loc,--last); //decrement the last position counter, then swap the min value with the last value added
+			q[last] = null;
       sink(loc);  // sink the swapped value down to a proper location
+			
 			// after the sink is finished, remove the car from the indirection structure
 			indirect.remove(vin);
     }
@@ -117,7 +121,7 @@ public class MileageQ{
 
       // check existence of left child
       if(q[leftChildIndex] == null || leftChildIndex == last) return;  //no left child means we cannot proceed further
-      if(q[leftChildIndex].getMileage() < q[index].getMileage()){
+      if(q[leftChildIndex].getMileage() <= q[index].getMileage()){
         // if the left child is of higher priority
         swap(leftChildIndex, index); // swap values
         sink(leftChildIndex);   //continue to sink the value

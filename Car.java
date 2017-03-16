@@ -24,11 +24,21 @@ public class Car{
 	}
 	
 	//constructor for TESTING	
-	public Car(String vin, int miles){
+	public Car(String vin, int price){
 		myVIN = vin;
-		myMiles = miles;
+		myPrice = price;
 	}
-
+	
+	//Display the car's info in a neatly formatted way
+	public void displayInfo(){
+		System.out.println("	VIN: " + myVIN);
+		System.out.println("	Make: " + myMake);
+		System.out.println("	Model: " + myModel);
+		System.out.println("	Price: $" + myPrice);
+		System.out.println("	Mileage: " + myMiles);
+		System.out.println("	Color: " + myColor);
+	}
+	
 	// Getters
 	public String getVIN(){
 		return myVIN;
