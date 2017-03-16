@@ -14,57 +14,13 @@ public class Car{
 	private String myColor;
 
 	// Constructor
-	public Car(){
-		// get Mileage
-		Scanner intreader = new Scanner(System.in);
-		System.out.print("\nEnter Mileage: ");
-		myMiles = intreader.nextInt();
-		//createCar();
-	}
-
-	// prompt for car creation
-	private void createCar(){
-		String vin, make, model, color;
-		int price, miles;
-
-		// create scanners for input
-		Scanner stringreader = new Scanner(System.in);
-		Scanner intreader = new Scanner(System.in);
-
-		// get all input, all strings are placed in upper case for consistency
-		// get VIN
-		System.out.print("Enter VIN: ");
-		vin = ((stringreader.nextLine()).trim()).toUpperCase();
-
-		// get Make
-		System.out.print("\nEnter Make: ");
-		make = ((stringreader.nextLine()).trim()).toUpperCase();
-
-		// get Model
-		System.out.print("\nEnter Model: ");
-		model = stringreader.nextLine().trim().toUpperCase();
-
-		// get Price
-		System.out.print("\nEnter Price: ");
-		price = intreader.nextInt();
-
-		// get Mileage
-		System.out.print("\nEnter Mileage: ");
-		miles = intreader.nextInt();
-
-		// get Color
-		System.out.print("\nEnter Color: ");
-		color = stringreader.nextLine().trim().toUpperCase();
-
-		// set all values to instance variables
+	public Car(String vin, String make, String model, int price, int miles, String color){
 		myVIN 	= vin;
-		myMake	= make;
-		myModel	= model;
-		myPrice	= price;
-		myMiles	= miles;
-		myColor	= color;
-
-		return;
+		myMake 	= make;
+		myModel = model;
+		myPrice = price;
+		myMiles = miles;
+		myColor = color;
 	}
 
 	// Getters
