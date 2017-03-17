@@ -10,6 +10,7 @@ import java.util.Scanner;
 public class CarTracker{
 	static MileageQ byMiles;
 	static PriceQ byPrice;
+	static MakeModelQ byMakeModel;
 	
 	public static void displayMenu(){
 		System.out.println("	1. Add a Car");
@@ -56,8 +57,10 @@ public class CarTracker{
 				lowestMileage();
 				break;
 			case 6:
+			lowestPriceMakeModel();
 				break;
 			case 7:
+			lowestMileageMakeModel();
 				break;
 		}
 	}
@@ -132,6 +135,7 @@ public class CarTracker{
 		//add the car to all necessary PQs
 		byMiles.insert(c);
 		byPrice.insert(c);
+		byMakeModel.insert(c);
 	}
 	
 	//Menu Selection 2, update a car
@@ -198,7 +202,8 @@ public class CarTracker{
 		
 		//remove that vin from all queues
 		byMiles.remove(vin);
-		byPrice.remove(vin);
+		Car temp = byPrice.remove(vin); // save the removal instance
+		byMakeModel.remove(temp); // use that instance to remove from the byMakeModel structure
 		return;
 	}
 	
@@ -220,9 +225,52 @@ public class CarTracker{
 		return;
 	}
 	
+	//Menu Selection 6, retrieve lowest price car by make/model
+	public static void lowestPriceMakeModel(){
+		String make, model;
+		System.out.println("*******************************");
+		System.out.println("Low Price Search by Make/Model:");
+		Scanner reader = new Scanner(System.in);
+		//prompt for make
+		System.out.print("Make: ");
+		make = reader.nextLine();
+		//prompt for model
+		System.out.print("Model: ");
+		model = reader.nextLine();
+		
+		//get car 
+		Car result = byMakeModel.getLowestPrice(make, model);
+		result.displayInfo();
+		return;
+	}
+	
+	//Menu Selection 7, retrieve lowest mileage car by make/model
+	public static void lowestMileageMakeModel(){
+		String make, model;
+		System.out.println("*********************************");
+		System.out.println("Low Mileage Search by Make/Model:");
+		Scanner reader = new Scanner(System.in);
+		//prompt for make
+		System.out.print("Make: ");
+		make = reader.nextLine();
+		//prompt for model
+		System.out.print("Model: ");
+		model = reader.nextLine();
+		
+		//get car 
+		Car result = byMakeModel.getLowestPrice(make, model);
+		if(result == null) {
+			System.out.println("NO INFORMATION AVAILABLE");
+			return;
+		}
+		result.displayInfo();
+		return;
+	}
+		
   public static void main(String[] args){
 		byMiles = new MileageQ();	// initialize the PQ to sort by Mileage
 		byPrice = new PriceQ();		// initialize PQ for sorting prices
+		byMakeModel = new MakeModelQ(); // initialize PQ for sorting both prices and mileage by make/model
 		int choice;
 		System.out.println("**********************************************************************");
 		System.out.println("Welcome to Select-A-Car! Please enter a numeric option from the menu: ");

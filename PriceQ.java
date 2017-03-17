@@ -39,16 +39,18 @@ public class PriceQ{
     }
 		
 		// remove any node from the PQ given the car's VIN
-    public void remove(String vin){
+    public Car remove(String vin){
 			int loc = getQIndex(vin);	// get the location of the car from the HashMap
 			// if vin does not exist in the queue, terminate
-			if(loc == -1) return;
+			if(loc == -1) return null;
+			Car temp = q[loc];
       swap(loc,--last); //decrement the last position counter, then swap the min value with the last value added
 			q[last] = null;
       sink(loc);  // sink the swapped value down to a proper location
 			
 			// after the sink is finished, remove the car from the indirection structure
 			indirect.remove(vin);
+			return temp;
     }
 		
 		// update the mileage, given a valid vin number

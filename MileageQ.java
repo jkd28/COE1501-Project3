@@ -11,7 +11,7 @@ public class MileageQ{
     private Car[] q;  // the array to store the cars we are queueing
     private int last; // the next index to be inserted to in order to maintain the heap property
 		private HashMap<String, Integer> indirect;	// the data structure for maintaining indirection to the PQ
-	
+		
 		// constructor
     public MileageQ(){
       q = new Car[100]; // arbitrary size of 100
@@ -27,6 +27,7 @@ public class MileageQ{
 		
 		// insert a car into the PQ
     public void insert(Car car){
+			if(indirect.containsKey(car.getVIN())) return; // do nothing if the vin exists in the structure already
       q[last] = car;  // add item to last place in the array
 			indirect.put(car.getVIN(), last);	// insert the item into indirection structure
 			swim(last);     // now swim the value up to proper location
@@ -37,16 +38,18 @@ public class MileageQ{
     }
 		
 		// remove any node from the PQ given the car's VIN
-    public void remove(String vin){
+    public Car remove(String vin){
 			int loc = getQIndex(vin);	// get the location of the car from the HashMap
 			// if vin does not exist in the queue, terminate
-			if(loc == -1) return;
+			if(loc == -1) return null;
+			Car temp = q[loc];
       swap(loc,--last); //decrement the last position counter, then swap the min value with the last value added
 			q[last] = null;
       sink(loc);  // sink the swapped value down to a proper location
 			
 			// after the sink is finished, remove the car from the indirection structure
 			indirect.remove(vin);
+			return temp; // return the removed Car object 
     }
 		
 		// update the price, given a valid vin number
