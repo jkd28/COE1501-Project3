@@ -177,6 +177,7 @@ public class PriceQ{
       return;
     }
 
+		/*
 		//function to print the Queue, strictly for testing
     public void printQ(){
       for(int i = 0; i < last; i++){
@@ -184,4 +185,5 @@ public class PriceQ{
       }
       return;
     }
+		*/
 }

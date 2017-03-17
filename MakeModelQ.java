@@ -6,20 +6,6 @@
   This is a class that manages two HashMaps containing Priority Queues for each unique 
 	combinations of make/model that is present. 
 
-	This allows me to get the lowest price or mileage for a make/model combination in constant 
-	time, since hashing is constance time and retrieval from the queue is constant time as well. 
-	
-	Inserts will be logarithmic time, as there is only the addition of constant time hashing 
-	to reach the queue we are inserting to. 
-	
-	Removal will be in logarithmic time since it takes the removed Car from one of the other 
-	queues.  This allows me to hash the make/model in constant time and remove from the queue
-	in which it exists in logarithmic time.  
-	
-	Updates will also be in logarithmic time since it takes a Car object, extracts make/model info
-	in constant time, then gets the queues in which that car is stored in constant time, then performs
-	the update operation on those two queues, which is logarithmic time with a multiplicative constant 
-	of 2. We can ignore this constant in assymptotic runtimes.
 */
 import java.util.HashMap;
 public class MakeModelQ{

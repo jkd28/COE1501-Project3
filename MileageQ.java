@@ -179,7 +179,8 @@ public class MileageQ{
       q = newQ; //set reference to old queue to new queue
       return;
     }
-
+		
+		/*
 		//function to print the Queue, strictly for testing
     public void printQ(){
       for(int i = 0; i < last; i++){
@@ -187,4 +188,5 @@ public class MileageQ{
       }
       return;
     }
+		*/
 }
