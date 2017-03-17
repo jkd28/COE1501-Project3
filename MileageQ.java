@@ -53,7 +53,7 @@ public class MileageQ{
     }
 		
 		// update the price, given a valid vin number
-		public int updatePrice(String vin, int newPrice){
+		public int updatePrice(String vin, double newPrice){
 			int location = getQIndex(vin);
 			if(location != -1){ // check for vin existence
 				q[location].setPrice(newPrice);
@@ -99,6 +99,10 @@ public class MileageQ{
 			}
 		}
 		
+		public Car getCar(String vin){
+			int index = getQIndex(vin);
+			return q[index];
+		}
 		/******HELPER METHODS********/
     // swim a value up the heap to the proper location
     private void swim(int index){

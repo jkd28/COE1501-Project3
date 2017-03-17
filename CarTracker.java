@@ -90,7 +90,8 @@ public class CarTracker{
 	// prompt and gather information to create a Car object from user input
 	public static Car createCar(){
 		String vin, make, model, color;
-		int price, miles;
+		int miles;
+		double price;
 
 		// create scanners for input
 		Scanner stringreader = new Scanner(System.in);
@@ -105,7 +106,7 @@ public class CarTracker{
 		
 		// get Make
 		System.out.print("Enter Make: ");
-		make = ((stringreader.nextLine()).trim()).toUpperCase();
+		make = stringreader.nextLine().trim().toUpperCase();
 		
 		// get Model
 		System.out.print("Enter Model: ");
@@ -113,7 +114,7 @@ public class CarTracker{
 		
 		// get Price
 		System.out.print("Enter Price: ");
-		price = intreader.nextInt();
+		price = intreader.nextDouble();
 		
 		// get Mileage
 		System.out.print("Enter Mileage: ");
@@ -168,11 +169,13 @@ public class CarTracker{
 	public static void updateCarPrice(String vin){
 		Scanner r = new Scanner(System.in);
 		System.out.print("Enter a new price: $");
-		int price = r.nextInt();
+		double price = r.nextDouble();
 		
 		// update price in all Queues
 		byMiles.updatePrice(vin, price);
 		byPrice.updatePrice(vin, price);
+		Car temp = byMiles.getCar(vin);
+		byMakeModel.updatePrice(temp, price);
 		return;
 	}
 	public static void updateCarMiles(String vin){
@@ -183,6 +186,8 @@ public class CarTracker{
 		// update price in all Queues
 		byMiles.updateMileage(vin, miles);
 		byPrice.updateMileage(vin, miles);
+		Car temp = byMiles.getCar(vin);
+		byMakeModel.updateMileage(temp, miles);
 		return;
 	}
 	public static void updateCarColor(String vin){
@@ -191,8 +196,10 @@ public class CarTracker{
 		String color = r.nextLine().trim().toUpperCase();
 		
 		// update price in all Queues
-		byMiles.updateColor(vin, color);
+		byMiles.updateColor(vin, color);	//save car that is updated 
 		byPrice.updateColor(vin, color);
+		Car temp = byMiles.getCar(vin);
+		byMakeModel.updateColor(temp,color); 
 		return;
 	}
 	
@@ -233,10 +240,10 @@ public class CarTracker{
 		Scanner reader = new Scanner(System.in);
 		//prompt for make
 		System.out.print("Make: ");
-		make = reader.nextLine();
+		make = reader.nextLine().trim().toUpperCase();
 		//prompt for model
 		System.out.print("Model: ");
-		model = reader.nextLine();
+		model = reader.nextLine().trim().toUpperCase();
 		
 		//get car 
 		Car result = byMakeModel.getLowestPrice(make, model);
@@ -252,13 +259,13 @@ public class CarTracker{
 		Scanner reader = new Scanner(System.in);
 		//prompt for make
 		System.out.print("Make: ");
-		make = reader.nextLine();
+		make = reader.nextLine().trim().toUpperCase();
 		//prompt for model
 		System.out.print("Model: ");
-		model = reader.nextLine();
+		model = reader.nextLine().trim().toUpperCase();
 		
 		//get car 
-		Car result = byMakeModel.getLowestPrice(make, model);
+		Car result = byMakeModel.getLowestMileage(make, model);
 		if(result == null) {
 			System.out.println("NO INFORMATION AVAILABLE");
 			return;

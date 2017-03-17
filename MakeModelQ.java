@@ -15,9 +15,13 @@
 	Removal will be in logarithmic time since it takes the removed Car from one of the other 
 	queues.  This allows me to hash the make/model in constant time and remove from the queue
 	in which it exists in logarithmic time.  
+	
+	Updates will also be in logarithmic time since it takes a Car object, extracts make/model info
+	in constant time, then gets the queues in which that car is stored in constant time, then performs
+	the update operation on those two queues, which is logarithmic time with a multiplicative constant 
+	of 2. We can ignore this constant in assymptotic runtimes.
 */
 import java.util.HashMap;
-import java.util.Set;
 public class MakeModelQ{
 	private HashMap<String, MileageQ> mileage;
 	private HashMap<String, PriceQ> price;
@@ -30,8 +34,10 @@ public class MakeModelQ{
 	
 	//Insert a car into the proper queue
 	public void insert(Car car){
+		//make a seperate car object
+		Car car2 = new Car(car.getVIN(), car.getMake(), car.getModel(), car.getPrice(), car.getMileage(), car.getColor());
 		insertMiles(car);
-		insertPrice(car);
+		insertPrice(car2); //using 2 seperate objects avoids an error with referencing the same car from both structures
 		return;
 	}
 	private void insertMiles(Car car){
@@ -90,14 +96,58 @@ public class MakeModelQ{
 		return;
 	}
 	
-	//updates a 
+	// updates a car's mileage in appropriate queue within either hashmap 
+	public void updateMileage(Car car, int newMileageVal){
+		if(car == null) return; //check for existence of car
+		
+		String key = car.getMake()+car.getModel(); //get the hash key
+		//get appropriate queues
+		MileageQ 	m = mileage.get(key);
+		PriceQ		p = price.get(key);
+		
+		//update car in both hashmaps
+		m.updateMileage(car.getVIN(), newMileageVal);
+		p.updateMileage(car.getVIN(), newMileageVal);
+		mileage.put(key,m);
+		price.put(key,p);
+	}
+	// updates a car's price in appropriate queue within either hashmap
+	public void updatePrice(Car car, double newPriceVal){
+		if(car == null) return; //check for existence of car
+		
+		String key = car.getMake()+car.getModel(); //get the hash key
+		//get appropriate queues
+		MileageQ 	m = mileage.get(key);
+		PriceQ		p = price.get(key);
+		
+		//update car in both hashmaps
+		m.updatePrice(car.getVIN(), newPriceVal);
+		p.updatePrice(car.getVIN(), newPriceVal);
+		mileage.put(key,m);
+		price.put(key,p);
+	}	
+	// updates a car's color in appropriate queue within either hashmap
+	public void updateColor(Car car, String color){
+		if(car == null) return; //check for existence of car
+		
+		String key = car.getMake()+car.getModel(); //get the hash key
+		//get appropriate queues
+		MileageQ 	m = mileage.get(key);
+		PriceQ		p = price.get(key);
+		
+		//update car in both hashmaps
+		m.updateColor(car.getVIN(), color);
+		p.updateColor(car.getVIN(), color);
+		mileage.put(key,m);
+		price.put(key,p);
+	}
+	
 	//returns the minimum mileage car with a given make/model combination
 	public Car getLowestMileage(String make, String model){
 		String key = make+model; //generate hashing key
 		MileageQ q = mileage.get(key); //get the queue at that key
 		return q.getMin();		
-	}
-	
+	}	
 	//returns the lowest price car with a given make/model combination
 	public Car getLowestPrice(String make, String model){
 		String key = make+model; //generate hashing key

@@ -9,24 +9,18 @@ public class Car{
 	private String myVIN;
 	private String myMake;
 	private String myModel;
-	private int myPrice;
+	private double myPrice;
 	private int myMiles;
 	private String myColor;
 
 	// Constructor
-	public Car(String vin, String make, String model, int price, int miles, String color){
+	public Car(String vin, String make, String model, double price, int miles, String color){
 		myVIN 	= vin;
 		myMake 	= make;
 		myModel = model;
 		myPrice = price;
 		myMiles = miles;
 		myColor = color;
-	}
-	
-	//constructor for TESTING	
-	public Car(String vin, int price){
-		myVIN = vin;
-		myPrice = price;
 	}
 	
 	//Display the car's info in a neatly formatted way
@@ -49,7 +43,7 @@ public class Car{
 	public String getModel(){
 		return myModel;
 	}
-	public int getPrice(){
+	public double getPrice(){
 		return myPrice;
 	}
 	public int getMileage(){
@@ -60,7 +54,7 @@ public class Car{
 	}
 
 	// Setters
-	public void setPrice(int price){
+	public void setPrice(double price){
 		myPrice=price;
 		return;
 	}

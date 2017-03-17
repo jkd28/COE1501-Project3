@@ -76,10 +76,10 @@ public class PriceQ{
 		}
 		
 		// update the price given a vin, this requires reordering of the PQ 
-		public int updatePrice(String vin, int newPrice){
+		public int updatePrice(String vin, double newPrice){
 			int location = getQIndex(vin);
 			if(location != -1){ // check for vin existence
-				int oldPrice = q[location].getPrice(); //save old number of miles
+				double oldPrice = q[location].getPrice(); //save old number of miles
 				q[location].setPrice(newPrice);
 				// maintain heap property
 				if(newPrice > oldPrice){
@@ -106,8 +106,8 @@ public class PriceQ{
       int parentIndex = getParentIndex(index);
       if (parentIndex<0 || parentIndex==index) return; // if there is no parent, terminate
       // if there is a parent node, we want to compare the price with the current node
-      int parentPrice = q[parentIndex].getPrice();
-      int currentPrice = q[index].getPrice();
+      double parentPrice = q[parentIndex].getPrice();
+      double currentPrice = q[index].getPrice();
       if(currentPrice < parentPrice){
         //if the parent's price is greater than our price, we need to swap
         swap(parentIndex, index);
