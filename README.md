@@ -1,9 +1,9 @@
-#CS/COE 1501 Assignment 3
+# CS/COE 1501 Assignment 3
 
-##Goal:
+## Goal:
 To explore an advanced application of priority queues in order to gain a deeper understanding of the data structure.
 
-##High-level description:
+## High-level description:
 You will be writing a basic application to help a user select a car to buy.
 You will write a menu-based user interface driver program (to be run in the terminal, no GUI), but most of the logic will be in implementing a priority queue-based data structure.
 You should write a PQ-based data structure that stores objects according to the relative priorities of two of their attributes, making it efficient to retrieve objects with the minimum value of either attribute.
@@ -12,7 +12,7 @@ You will want users to be able to enter details about cars that they are conside
 The user should then be able to efficiently retrieve the car with the lowest mileage or lowest price.
 These retrievals should be possible on the set of all entered cars or on the set of all cars of a specific make and model (e.g., "lowest price Ford Fiesta", "lowest mileage Cadillac Escalade").
 
-##Specifications:
+## Specifications:
 1.  First you must create a class to store data about cars to buy
 	Specifically, this class must contain the following information:
 	*  A unique VIN number (17 character string of numbers and capital letters (but no I (i), O (o), or Q (q) to avoid confusion with numerals 1 and 0)
@@ -47,7 +47,7 @@ These retrievals should be possible on the set of all entered cars or on the set
 	Be sure to describe your carefully document your approach to ease the effort required to trace through your code for grading.
 	Be sure to include descriptions of the runtime and space requirements of your approach and use them in your justification of why you think your approach is the best way to go.
 
-##Submission Guidelines:
+## Submission Guidelines:
 *  **DO NOT SUBMIT** any IDE package files.
 *  You must name the primary driver for your program CarTracker.java.
 *  You must be able to compile your game by running "javac CarTracker.java".
@@ -56,11 +56,11 @@ These retrievals should be possible on the set of all entered cars or on the set
 *  You must fill out info_sheet.txt.
 *  Be sure to remember to push the latest copy of your code back to your GitHub repository before the the assignment is due.  At the deadline, the repositories will automatically be copied for grading.  Whatever is present in your GitHub repository at that time will be considered your submission for this assignment.
 
-##Additional Notes/Hints:
+## Additional Notes/Hints:
 *  You are free to use code provided by the book authors in implementing your solution.  It is up to you to decide if it would be easier to modify the provided code to meet the requirements of this project or if it would be easier to start with a clean slate with all of your own code.
 *  Your program does not need to enforce that users enter properly formatted VIN numbers, but you must design your data structure to operate efficiently on VIN numbers as specified here.  This should make testing your program much easier.
 
-##Grading Rubric:
+## Grading Rubric:
 *  Adding a car works properly:  10
 *  Updating a car works properly:  10
 *  Removing a car works properly:  15
