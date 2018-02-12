@@ -1,72 +1,69 @@
-# CS/COE 1501 Assignment 3
+# Car-buyer Assistant
+This project was an assignment for Algorithm Implementation at the University of Pittsburgh.  The assignment was to create an application to help a user select a car to buy.  The application did not have a GUI and would instead run in the terminal.
+In order to complete this assignment, I was required to implement an Indexable Priority Queue.
 
-## Goal:
-To explore an advanced application of priority queues in order to gain a deeper understanding of the data structure.
+There were several requirements for the performance/efficiency of certain operations as well.  This ensured that the PQ was implemented with a heap using indirection.
 
-## High-level description:
-You will be writing a basic application to help a user select a car to buy.
-You will write a menu-based user interface driver program (to be run in the terminal, no GUI), but most of the logic will be in implementing a priority queue-based data structure.
-You should write a PQ-based data structure that stores objects according to the relative priorities of two of their attributes, making it efficient to retrieve objects with the minimum value of either attribute.
-Your data structure should further be indexable to allow for efficient updates of entered items.
-You will want users to be able to enter details about cars that they are considering buying.
-The user should then be able to efficiently retrieve the car with the lowest mileage or lowest price.
-These retrievals should be possible on the set of all entered cars or on the set of all cars of a specific make and model (e.g., "lowest price Ford Fiesta", "lowest mileage Cadillac Escalade").
+## Overall Runtimes for Operations:
+In all cases, n is the number of cars in the structure:  
 
-## Specifications:
-1.  First you must create a class to store data about cars to buy
-	Specifically, this class must contain the following information:
-	*  A unique VIN number (17 character string of numbers and capital letters (but no I (i), O (o), or Q (q) to avoid confusion with numerals 1 and 0)
-	*  The car's make (e.g., Ford, Toyota, Honda)
-	*  The car's model (e.g., Fiesta, Camry, Civic)
-	*  The price to purchase (in dollars)
-	*  The mileage of the car
-	*  The color of the car
-1.  You must write a terminal menu-based driver program (again, no GUI).
-	Specifically, your driver must present the user with the following options:
-	1.  Add a car
-		*  This will (one at a time) prompt the user for all of the above-listed attributes of a car to keep track of
-	1.  Update a car
-		*  This option will prompt the user for the VIN number of a car to update, and then ask the user if they would like to update 1) the price of the car, 2) the mileage of the car, or 3) the color of the car
-	1.  Remove a specific car from consideration
-		*  This option will prompt the user for the VIN number of a car to remove from the data structure (e.g., if it is no longer for sale)
-		*  Note that this mean you will need to support removal of cars other than the minimum (price or mileage) car
-	1.  Retrieve the lowest price car
-	1.  Retrieve the lowest mileage car
-	1.  Retrieve the lowest price car by make and model
-		* This option will prompt the user to enter (one at a time) a make and model and then return the car with the minimum price for that make and model
-	1.  Retrieve the lowest mileage car by make and model
-		* This option will prompt the user to enter (one at a time) a make and model and then return the car with the minimum mileage for that make and model
-1.  Retrieval operations should not remove the car with minimum price or mileage from the datastructure, just return information about that car.
-	Cars should only be removed via the "remove a specific car from consideration" menu option.
-1.  To ensure efficiency of operations, you must base your data structure around the use of heaps with indirection (which make them indexable).
-	Note that operations on either attribute (e.g., retrieve minimum price, retrieve minimum mileage) should have a logarthmic runtime (both for all cars and for a specific make and model).
-	Updates and removals should also had a logarithmic runtime.
-	Take care in selecting your approach to the indirection data structure to account for the types of keys you will need to store and the type and number operations that you will need to perform on them.
-1.  Because this project requires you to make a number of decisions about how to implement its requirements, you will need to write a documentation file explaining your implementation, and justifying your decisions.
-	Name this file "documentation.txt".
-	Be sure to describe your carefully document your approach to ease the effort required to trace through your code for grading.
-	Be sure to include descriptions of the runtime and space requirements of your approach and use them in your justification of why you think your approach is the best way to go.
+	BY MILEAGE/PRICE
+	Insert:  O(logn)
+	Remove:  O(logn)
+	Update:  O(1)
+	findMin: O(1)
 
-## Submission Guidelines:
-*  **DO NOT SUBMIT** any IDE package files.
-*  You must name the primary driver for your program CarTracker.java.
-*  You must be able to compile your game by running "javac CarTracker.java".
-*  You must be able to run your program with "java CarTracker".
-*  You must document and justify your approach in "documentation.txt".
-*  You must fill out info_sheet.txt.
-*  Be sure to remember to push the latest copy of your code back to your GitHub repository before the the assignment is due.  At the deadline, the repositories will automatically be copied for grading.  Whatever is present in your GitHub repository at that time will be considered your submission for this assignment.
+	BY MAKE/MODEL
+	Insert:  O(logn)
+	Remove:  O(logn)
+	Update:  O(1)
+	findMin: O(1)
 
-## Additional Notes/Hints:
-*  You are free to use code provided by the book authors in implementing your solution.  It is up to you to decide if it would be easier to modify the provided code to meet the requirements of this project or if it would be easier to start with a clean slate with all of your own code.
-*  Your program does not need to enforce that users enter properly formatted VIN numbers, but you must design your data structure to operate efficiently on VIN numbers as specified here.  This should make testing your program much easier.
+## Space Complexity:
+**2n** :for the MileageQ and PriceQ  
+**2n** :for the implementatin of MakeModelQ, which uses many MileageQ and PriceQ    
+**2n** :for each indirection data structure to hold hashes to indexes in MileageQ/PriceQ  
+**2n** :for each the indirection structures in MakeModelQ
 
-## Grading Rubric:
-*  Adding a car works properly:  10
-*  Updating a car works properly:  10
-*  Removing a car works properly:  15
-*  Retrieval for all cars works properly:  10
-*  Retrieval for a given make/model works properly:  15
-*  Operations on either attribute are efficient due to heap-backed data structure:  15
-*  Validity of justitifications:  15
-*  Menu-based driver program works properly and has appropriately labeled options:  5
-*  Assignment info sheet/submission:  5
+**TOTAL SPACE COMPLEXITY:**  
+O(2n + 2n + 2n + 2n) = O(8n) = O(n)
+
+## Implementation of Queues  
+I decided that two separate queues would be preferable to gather the information/sort the values appropriately.  This means that each Car object
+is stored at least twice, once in a MileageQ (PQ for mileage of a car) and once in a PriceQ (PQ for price of a car).  I chose to do this because
+it was the most straightfoward way I could think of to approach the problem of sorting/prioritizing based on two separate values.
+
+MileageQ and PriceQ are implemented exactly the same as each other, with a few changes to individual methods in order to keep each functioning
+to the purpose of the class. The Queues work by implementing an array-based heap as discussed in lecture.  This was the most efficient way for
+me to implement the heap structure, and also was the most familiar to me.
+
+__Insert:__ Add the object to the last point of the heap array (constant-time) and swim the value up as necessary (logarithmic-time).
+
+__Remove:__ Hash vin to get index of removed item (constant-time), swap it with the last added value (constant-time), and sink the swapped value
+	down as necessary (logarithmic-time).
+
+__Update:__ Hash vin to get index of item to update (constant-time), update the car object as necessary (constant-time).
+
+__GetMinimum:__ Return the first value in the heap array (constant-time).
+
+## Implementation of Indirection
+I chose to use a HashMap of VIN to Index in Heap Array.  This implementation ensured a low chance of collisions due to uniqueness of VINs.  This implementation also meant that reaching the index of a certain VIN is a constant-time operation, as the **hash function is linear in terms of the VIN (O(n) where n is the length of the VIN)**, but that is a constant number of 17.  This allows us to hash in linear time with regard to the rest of the program. Based on my research of the topic, hashcodes for a given string are then cached and retrieval of the code is **O(1)** in the future. These performances allowed me to justify my use of the Java HashMap Library in my project.
+
+The ease of implementation for Java's HashMap object was another large reason for my use of it.  Using an object that was already built and well-documented reduced my engineering effort to a minimal level. I was then able to focus on other parts of the project without having to "reinvent the wheel". Using these constant time operations and minimal engineering-effort objects, I was able to keep my inserts, updates, and removals at logarithmic time for my Queues.  
+
+## Implementation of Sort by Make/Model:
+I decided to implement this part of the project using the Java HashMap Library again, this time hashing a combination of strings Make and Model to a Priority Queue. This implementation required me to keep two separate HashMaps (one for mileage, one for price).  This doubled the space complexity of my program. Through this hashing implementation, I was able to keep track of the lowest mileage/price for any given make/model combination with the same time complexity as MileageQ and PriceQ.
+
+This allows me to get the lowest price or mileage for a make/model combination in constant time, since hashing is constant time and retrieval from the queue is constant time as I discussed above.
+
+__Inserts:__ logarithmic-time, as there is only the addition of constant time hashing to reach the queue we are inserting to.
+
+__Removal:__ logarithmic-time since it takes the removed Car from one of the other queues.  This allows me to retrieve and hash the	make/model in
+constant-time and remove from the proper queue in logarithmic-time.  
+
+__Updates:__ constant-time since it takes a Car object, extracts make/model info in constant time, then gets the queues in which that car is stored in constant time, then performs the update operation on those two queues, which is constant time with a multiplicative constant of 2. We can ignore this constant in asymptotic runtimes.
+
+__Minimum:__ constant-time, as we hash the make+model combination in constant-time and then return the value from the getMin operation in the queue, which is constant-time as well.
+
+## Submission Comments
+Though my space complexity was not ideal, I was able to minimize runtimes to the required amounts as well as reduce the necessary engineering effort to an acceptable and realistic amount.  I am sure that given more time I could find a solution to reduce my practical space complexity by some degree, though asymptotically I am happy with the result.
